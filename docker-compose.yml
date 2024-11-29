@@ -1,0 +1,31 @@
+services:
+  nextjs:
+    build:
+      dockerfile: ./Dockerfile.nextjs
+    container_name: borrow-app
+    volumes:
+      - ./src:/app/src
+    ports:
+      - 3000:3000
+      
+  borrow-db:
+    image: mariadb:10.4.32
+    container_name: borrow-db
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 1234
+      MYSQL_DATABASE: borrow-db
+
+  phpmyadmin:
+    image: phpmyadmin:5.2.1
+    container_name: borrow_phpmyadmin
+    environment:
+      PMA_HOST: borrow-db
+      MYSQL_ROOT_PASSWORD: 1234
+    ports:
+      - "8080:80"
+
+networks:
+  default:
+    name: nextjs-test-network
