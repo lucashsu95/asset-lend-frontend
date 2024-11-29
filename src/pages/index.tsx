@@ -13,23 +13,17 @@ const geistMono = localFont({
 	weight: '100 900'
 })
 
-const handleNull =() => {
-
-}
-
 export default function Home() {
 	const { register, handleSubmit } = useForm()
 
 	const onSubmit = () => {}
-
-	handleSubmit(onSubmit)
 
 	return (
 		<div
 			className={`${geistSans.variable} ${geistMono.variable} font-[family-name:var(--font-geist-sans)]`}
 		>
 			<main className='mx-auto w-[80%]'>
-				<Form title='器材借用' className='mx-auto w-[450px]' handleSubmit={handleNull}>
+				<Form title='器材借用' className='mx-auto w-[450px]' handleSubmit={handleSubmit(onSubmit)}>
 					<div className='space-y-7'>
 						<div className='flex justify-between'>
 							<label htmlFor='nickname'>名稱</label>

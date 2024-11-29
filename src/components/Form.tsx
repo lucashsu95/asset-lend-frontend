@@ -1,9 +1,9 @@
 interface FormProps {
 	title?: string | React.ReactNode
-	handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void | undefined
 	children: React.ReactNode
 	other?: React.ReactNode
 	className?: string
+	handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
 }
 
 export default function Form({ title, children, handleSubmit, other, className }: FormProps) {

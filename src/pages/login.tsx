@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import api from '@/api/api'
 import Form from '@/components/Form'
+import { useForm } from 'react-hook-form'
+
+import { Button } from '@/components/ui/button'
+import { HStack } from '@chakra-ui/react'
 
 function GoogleLogin() {
 	const [loginUrl, setLoginUrl] = useState<string | undefined>(undefined)
@@ -29,24 +33,21 @@ function GoogleLogin() {
 }
 
 export default function Login() {
-	const [formData, setFormData] = useState({
-		nickname: '',
-		email: '',
-		phone: '',
-		password: ''
+	const {
+		register,
+		handleSubmit,
+		formState: { errors }
+	} = useForm({
+		defaultValues: {
+			nickname: '',
+			phone: '',
+			email: '',
+			password: ''
+		}
 	})
 
-	const { nickname, email, phone, password } = formData
-
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setFormData((prev) => ({
-			...prev,
-			[e.target.name]: e.target.value
-		}))
-	}
-
-	const handleSubmit = (e: { preventDefault: () => void }) => {
-		e.preventDefault()
+	const onSubmit = () => {
+		console.log('submit')
 
 		// if (tabValue === 'login') {
 		//   User.login(dispatch, formData).then((res) => {
@@ -60,59 +61,76 @@ export default function Login() {
 		// }
 	}
 
+	const Demo = () => {
+		return (
+			<HStack>
+				<Button>Click me</Button>
+				<Button>Click me</Button>
+			</HStack>
+		)
+	}
+
 	return (
-		<div className='mx-auto max-w-[450px]'>
+		<div>
 			<div className='mt-16'>
-				<Form other={<GoogleLogin />} title='Login 登入' handleSubmit={handleSubmit}>
-					<div className='space-y-2'>
-						<label htmlFor='nickname'>名稱</label>
-						<input
-							className='input'
-							id='nickname'
-							name='nickname'
-							type='nickname'
-							value={nickname}
-							onChange={handleChange}
-							required
-						/>
-					</div>
-					<div className='space-y-2'>
-						<label htmlFor='phone'>手機號碼</label>
-						<input
-							className='input'
-							id='phone'
-							name='phone'
-							type='text'
-							value={phone}
-							onChange={handleChange}
-							required
-						/>
-					</div>
+				<Demo />
+				<Form
+					other={<GoogleLogin />}
+					title='Login 登入'
+					className='mx-auto w-full max-w-[450px] px-5'
+					handleSubmit={handleSubmit(onSubmit)}
+				>
+					<div className='space-y-5'>
+						<div className='flex flex-col justify-between *:flex-1'>
+							<label className='mb-2 flex items-center' htmlFor='nickname'>
+								名稱
+							</label>
+							<input
+								className='input'
+								{...register('nickname', {
+									required: '必填'
+								})}
+							/>
+							{errors.nickname && <span>{errors.nickname.message}</span>}
+						</div>
+						<div className='flex flex-col justify-between *:flex-1'>
+							<label className='mb-2 flex items-center' htmlFor='phone'>
+								手機號碼
+							</label>
+							<input
+								className='input'
+								{...register('phone', {
+									required: '必填'
+								})}
+							/>
+							{errors.phone && <span>{errors.phone.message}</span>}
+						</div>
 
-					<div className='space-y-2'>
-						<label htmlFor='email'>電子郵件</label>
-						<input
-							className='input'
-							id='email'
-							name='email'
-							type='email'
-							value={email}
-							onChange={handleChange}
-							required
-						/>
-					</div>
+						<div className='flex flex-col justify-between *:flex-1'>
+							<label className='mb-2 flex items-center' htmlFor='email'>
+								電子郵件
+							</label>
+							<input
+								className='input'
+								{...register('email', {
+									required: '必填'
+								})}
+							/>
+							{errors.email && <span>{errors.email.message}</span>}
+						</div>
 
-					<div className='space-y-2'>
-						<label htmlFor='password'>密碼</label>
-						<input
-							className='input'
-							id='password'
-							name='password'
-							type='password'
-							value={password}
-							onChange={handleChange}
-							required
-						/>
+						<div className='flex flex-col justify-between *:flex-1'>
+							<label className='mb-2 flex items-center' htmlFor='password'>
+								密碼
+							</label>
+							<input
+								className='input'
+								{...register('password', {
+									required: '必填'
+								})}
+							/>
+							{errors.password && <span>{errors.password.message}</span>}
+						</div>
 					</div>
 				</Form>
 			</div>

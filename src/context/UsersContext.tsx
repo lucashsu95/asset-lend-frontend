@@ -4,7 +4,8 @@ type User = {
 	id: number
 	account: string
 	password: string
-	role: string
+	role: string,
+	access_token:string
 }
 
 type UserContextType = {
