@@ -1,6 +1,15 @@
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
+import { AppProps } from 'next/app'
+import { UserProvider } from '../context/UsersContext'
+import { SportsProvider } from '../context/SportsContext'
 
-export default function App({ Component, pageProps }: AppProps) {
-	return <Component {...pageProps} />
+function MyApp({ Component, pageProps }: AppProps) {
+	return (
+		<UserProvider>
+			<SportsProvider>
+				<Component {...pageProps} />
+			</SportsProvider>
+		</UserProvider>
+	)
 }
+
+export default MyApp
