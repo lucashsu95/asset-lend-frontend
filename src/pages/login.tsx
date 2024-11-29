@@ -4,9 +4,6 @@ import api from '@/api/api'
 import Form from '@/components/Form'
 import { useForm } from 'react-hook-form'
 
-import { Button } from '@/components/ui/button'
-import { HStack } from '@chakra-ui/react'
-
 function GoogleLogin() {
 	const [loginUrl, setLoginUrl] = useState<string | undefined>(undefined)
 	useEffect(() => {
@@ -61,19 +58,9 @@ export default function Login() {
 		// }
 	}
 
-	const Demo = () => {
-		return (
-			<HStack>
-				<Button>Click me</Button>
-				<Button>Click me</Button>
-			</HStack>
-		)
-	}
-
 	return (
 		<div>
 			<div className='mt-16'>
-				<Demo />
 				<Form
 					other={<GoogleLogin />}
 					title='Login 登入'
