@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import api from '@/api/api'
 import Form from '@/components/Form'
-// import { AlertDialog } from '@/api/ApiResponse'
 
 function GoogleLogin() {
 	const [loginUrl, setLoginUrl] = useState<string | undefined>(undefined)
@@ -17,7 +16,10 @@ function GoogleLogin() {
 	return (
 		<div className='border-t-2 border-gray-300'>
 			<a href={loginUrl}>
-				<button className='mt-3 w-full border border-gray-300' type='button'>
+				<button
+					className='mt-3 grid w-full grid-cols-[1fr_10fr] items-center rounded-md border border-gray-300 px-2 py-3'
+					type='button'
+				>
 					<FcGoogle className='mr-3 h-5 w-5' />
 					Sign in with Google
 				</button>
@@ -61,17 +63,11 @@ export default function Login() {
 	return (
 		<div className='mx-auto max-w-[450px]'>
 			<div className='mt-16'>
-				<Form
-					className='w-10'
-					other={<GoogleLogin />}
-					title='Login 登入'
-					handleSubmit={handleSubmit}
-				>
-					<h2>登入</h2>
-
+				<Form other={<GoogleLogin />} title='Login 登入' handleSubmit={handleSubmit}>
 					<div className='space-y-2'>
 						<label htmlFor='nickname'>名稱</label>
 						<input
+							className='input'
 							id='nickname'
 							name='nickname'
 							type='nickname'
@@ -83,6 +79,7 @@ export default function Login() {
 					<div className='space-y-2'>
 						<label htmlFor='phone'>手機號碼</label>
 						<input
+							className='input'
 							id='phone'
 							name='phone'
 							type='text'
@@ -95,6 +92,7 @@ export default function Login() {
 					<div className='space-y-2'>
 						<label htmlFor='email'>電子郵件</label>
 						<input
+							className='input'
 							id='email'
 							name='email'
 							type='email'
@@ -107,6 +105,7 @@ export default function Login() {
 					<div className='space-y-2'>
 						<label htmlFor='password'>密碼</label>
 						<input
+							className='input'
 							id='password'
 							name='password'
 							type='password'

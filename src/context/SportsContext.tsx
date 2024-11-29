@@ -2,8 +2,8 @@ import { createContext, useState } from 'react'
 
 type Sport = {
 	id: number
-	name: string,
-    amount:0,
+	name: string
+	amount: 0
 }
 
 type SportsContextType = {

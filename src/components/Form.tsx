@@ -1,25 +1,23 @@
-import PropTypes from 'prop-types'
-
 interface FormProps {
 	title?: string | React.ReactNode
-	handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void
+	handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void | undefined
 	children: React.ReactNode
 	other?: React.ReactNode
 	className?: string
 }
 
-export default function Form({ title, handleSubmit, children, other, className }: FormProps) {
+export default function Form({ title, children, handleSubmit, other, className }: FormProps) {
 	return (
 		<div className={`h-min py-5 ${className}`}>
 			{title && (
-				<div>
+				<div className='mb-5 text-center text-xl font-bold'>
 					<div>{title}</div>
 				</div>
 			)}
 			<section>
-				<form onSubmit={handleSubmit} className='space-y-4'>
+				<form className='space-y-5' onSubmit={handleSubmit}>
 					{children}
-					<button type='submit' className='w-full'>
+					<button type='submit' className='btn-primary w-full'>
 						送出
 					</button>
 					{other}
@@ -27,10 +25,4 @@ export default function Form({ title, handleSubmit, children, other, className }
 			</section>
 		</div>
 	)
-}
-Form.propTypes = {
-	title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-	handleSubmit: PropTypes.func,
-	children: PropTypes.node.isRequired,
-	other: PropTypes.node
 }
