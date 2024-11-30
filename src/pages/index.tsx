@@ -1,3 +1,4 @@
+import Button from '@/components/ui/button'
 import localFont from 'next/font/local'
 
 const geistSans = localFont({
@@ -17,8 +18,9 @@ export default function Home() {
 			className={`${geistSans.variable} ${geistMono.variable} font-[family-name:var(--font-geist-sans)]`}
 		>
 			<main className='mx-auto w-[80%]'>
-				<h2>器材借用</h2>
-				<section>…</section>
+				<Button onClick={() => console.log('新增器材')} className='mt-5' variant='success'>
+					新增器材
+				</Button>
 			</main>
 		</div>
 	)
