@@ -1,45 +1,45 @@
-// FILE: @/component/ui/button.jsx
 import React from 'react'
 
 interface ButtonProps {
-	size?: 'sm' | 'lg'
+	size?: 'sm' | 'lg' | 'default' | 'icon'
 	className?: string
 	onClick?: () => void
 	children: React.ReactNode
 	type?: 'button' | 'submit' | 'reset'
-	variant?: 'primary' | 'secondary' | 'danger' | 'warning' | 'success'
+	variant?: keyof typeof variantClass
 }
 
-const tables = {
-	primary: 'btn-primary',
-	secondary: 'btn-secondary',
-	danger: 'btn-danger',
-	warning: 'btn-warning',
-	success: 'btn-success'
+const variantClass = {
+	default: 'bg-slate-900 text-white',
+	primary: 'bg-primary text-white',
+	secondary: 'bg-slate-200',
+	success: 'bg-success',
+	danger: 'bg-danger',
+	warning: 'bg-warning',
+	info: 'bg-info',
+	outline: 'border border-slate-600 text-slate-800'
+}
+
+const sizeClass = {
+	default: 'h-9 px-4 py-2',
+	sm: 'h-8 rounded-md px-3 text-xs',
+	lg: 'h-10 rounded-md px-8',
+	icon: 'h-9 w-9 inline-flex justify-center items-center'
 }
 
 const Button = ({
-	size,
+	size = 'default',
 	className,
-	variant = 'primary',
+	variant = 'default',
 	onClick,
 	children,
 	type = 'button',
 	...props
 }: ButtonProps) => {
-	let sizeClass = ''
-	if (size === 'lg') {
-		sizeClass = 'px-6 py-3 text-lg'
-	} else if (size === 'sm') {
-		sizeClass = 'px-2 py-1 text-sm'
-	} else {
-		sizeClass = 'px-4 py-2'
-	}
-
 	return (
 		<button
 			type={type}
-			className={`btn ${sizeClass} ${className} ${tables[variant]}`}
+			className={`cursor-pointer rounded-md transition-transform duration-300 hover:brightness-90 ${sizeClass[size]} ${className} ${variantClass[variant]} `}
 			{...props}
 			onClick={onClick}
 		>

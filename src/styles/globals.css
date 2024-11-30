@@ -16,10 +16,6 @@ body {
 @layer components {
 	/* Components Start */
 
-	.navbar {
-		@apply fixed left-0 right-0 top-0 z-10 flex justify-center space-x-4 bg-white p-5 shadow-md shadow-gray-300;
-	}
-
 	.wraps {
 		@apply flex min-h-screen w-full items-center justify-center bg-slate-200;
 	}
@@ -34,33 +30,6 @@ body {
 
 	.input {
 		@apply mt-1 w-full rounded border border-gray-200 p-2 shadow shadow-gray-200 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-sky-500;
-	}
-
-	.btn {
-		@apply cursor-pointer rounded px-3 py-2 transition-transform duration-300 hover:brightness-90 active:scale-95;
-	}
-
-	.btn-primary {
-		@apply btn bg-primary text-white;
-	}
-
-	.btn-secondary {
-		@apply btn bg-slate-200;
-	}
-
-	.btn-success {
-		@apply btn bg-success;
-	}
-	.btn-danger {
-		@apply btn bg-danger;
-	}
-
-	.btn-warning {
-		@apply btn bg-warning;
-	}
-
-	.btn-info {
-		@apply btn bg-info;
 	}
 
 	.link {

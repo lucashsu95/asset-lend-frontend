@@ -1,14 +1,16 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 
-type Assets = {
+type Asset = {
 	id: number
 	name: string
-	amount: 0
+	amount: number
 }
 
 type AssetsContextType = {
-	assets: Assets[]
-	setAssets: (assets: Assets[]) => void
+	assets: Asset[]
+	addAsset: (asset: Asset) => void
+	deleteAsset: (id: number) => void
+	updateAsset: (id: number, updatedAsset: Asset) => void
 }
 
 export const AssetsContext = createContext<AssetsContextType | undefined>(undefined)
@@ -18,14 +20,46 @@ type AssetsProviderProps = {
 }
 
 export const AssetsProvider = ({ children }: AssetsProviderProps) => {
-	const [assets, setAssets] = useState<Assets[]>([])
+	const [assets, setAssets] = useState<Asset[]>([])
 
-	return <AssetsContext.Provider value={{ assets, setAssets }}>{children}</AssetsContext.Provider>
+	const addAsset = (asset: Asset) => {
+		setAssets((prev) => [...prev, asset])
+	}
+
+	const deleteAsset = (id: number) => {
+		setAssets(assets.filter((asset) => asset.id !== id))
+	}
+
+	const updateAsset = (id: number, updatedAsset: Asset) => {
+		setAssets(assets.map((asset) => (asset.id === id ? { ...asset, ...updatedAsset } : asset)))
+	}
+
+	const seederAssets = useCallback(() => {
+		const assetNames = ['籃球', '排球', '足球', '羽球', '網球', '桌球', '撞球', '保齡球']
+		for (const [i, name] of assetNames.entries()) {
+			addAsset({
+				id: i + 1,
+				name: name,
+				amount: 5
+			})
+		}
+	}, [])
+
+	useEffect(() => {
+		seederAssets()
+	}, [seederAssets])
+
+	return (
+		<AssetsContext.Provider value={{ assets, addAsset, deleteAsset, updateAsset }}>
+			{children}
+		</AssetsContext.Provider>
+	)
 }
+
 export const useAssets = () => {
 	const context = useContext(AssetsContext)
 	if (!context) {
-		throw new Error('useUsers must be used within a UserProvider')
+		throw new Error('useAssets must be used within a AssetProvider')
 	}
 	return context
 }

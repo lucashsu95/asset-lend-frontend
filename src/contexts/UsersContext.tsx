@@ -1,16 +1,15 @@
-import { createContext, ReactNode, useState, useContext } from 'react'
+import { createContext, ReactNode, useState, useContext, useCallback, useEffect } from 'react'
 
 type User = {
 	id?: number
 	email: string
-	password: string
+	password?: string
 	role: string
 	access_token?: string
 }
 
 type UserContextType = {
 	users: User[]
-	setUsers: (users: User[]) => void
 	addUser: (user: User) => void
 	deleteUser: (id: number) => void
 	updateUser: (id: number, updatedUser: User) => void
@@ -23,10 +22,16 @@ type UserProviderProps = {
 }
 
 export const UserProvider = ({ children }: UserProviderProps) => {
-	const [users, setUsers] = useState<User[]>([])
+	const [users, setUsers] = useState<User[]>([
+		{
+			id: 1,
+			email: 'admin@web.tw',
+			role: '管理員'
+		}
+	])
 
 	const addUser = (user: User) => {
-		setUsers([...users, user])
+		setUsers((prev) => [...prev, user])
 	}
 
 	const deleteUser = (id: number) => {
@@ -34,11 +39,25 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 	}
 
 	const updateUser = (id: number, updatedUser: User) => {
-		setUsers(users.map((user) => (user.id === id ? updatedUser : user)))
+		setUsers(users.map((user) => (user.id === id ? { ...user, ...updatedUser } : user)))
 	}
 
+	const seederUsers = useCallback((num: number) => {
+		for (let i = 0; i < num; i++) {
+			addUser({
+				id: i + 2,
+				email: `user${i + 1}@web.tw`,
+				role: '使用者'
+			})
+		}
+	}, [])
+
+	useEffect(() => {
+		seederUsers(8)
+	}, [seederUsers])
+
 	return (
-		<UserContext.Provider value={{ users, setUsers, addUser, deleteUser, updateUser }}>
+		<UserContext.Provider value={{ users, addUser, deleteUser, updateUser }}>
 			{children}
 		</UserContext.Provider>
 	)

@@ -26,8 +26,13 @@ const Login = () => {
 				onSubmit={handleSubmit(onSubmit)}
 				title='登入'
 				other={
-					<Button className='btn grid w-full grid-cols-[1fr_10fr] items-center border'>
-						<FcGoogle className='mr-2 h-5 w-5' /> Login with Google
+					<Button
+						className='grid w-full grid-cols-[1fr_10fr] items-center'
+						variant='outline'
+						size='lg'
+					>
+						<FcGoogle className='h-5 w-5' />
+						Login with Google
 					</Button>
 				}
 			>
@@ -57,8 +62,8 @@ const Login = () => {
 					/>
 					{errors.password && <p className='text-red-500'>{errors.password.message}</p>}
 				</div>
-				<Button type='submit' className='w-full' variant='primary'>
-					Login
+				<Button type='submit' className='w-full' size='lg'>
+					登入
 				</Button>
 			</Form>
 		</div>
