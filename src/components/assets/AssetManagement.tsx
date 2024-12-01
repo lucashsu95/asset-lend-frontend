@@ -3,26 +3,27 @@ import { useState } from 'react'
 // components & icons
 import Dialog from '@/components/ui/dialog'
 import Button from '@/components/ui/button'
-// import { RiEditBoxFill } from 'react-icons/ri'
+import { RiEditBoxFill } from 'react-icons/ri'
 import { RiDeleteBinFill } from 'react-icons/ri'
-import { useAssets } from '@/contexts/AssetsContext'
 
 // context
+import { useAssets } from '@/contexts/AssetsContext'
+import EditAssets from './EditAssets'
 
 const AssetManagement = () => {
 	const [selectedAssetId, setSelectedAssetId] = useState<number | null>(null)
 	// edit dialog
-	// const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
+	const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
 
-	// const openEditDialog = (assetId: number | null) => {
-	// 	setSelectedAssetId(assetId)
-	// 	setIsAddDialogOpen(true)
-	// }
+	const openEditDialog = (assetId: number | null) => {
+		setSelectedAssetId(assetId)
+		setIsAddDialogOpen(true)
+	}
 
-	// const closeEditDialog = () => {
-	// 	setIsAddDialogOpen(false)
-	// 	setSelectedAssetId(null)
-	// }
+	const closeEditDialog = () => {
+		setIsAddDialogOpen(false)
+		setSelectedAssetId(null)
+	}
 
 	const { assets, deleteAsset } = useAssets()
 
@@ -48,10 +49,10 @@ const AssetManagement = () => {
 	return (
 		<>
 			<section>
-				{/* <Button onClick={() => openEditDialog(null)}>新增使用者</Button>
+				<Button onClick={() => openEditDialog(null)}>新增體育器材</Button>
 				<Dialog isOpen={isAddDialogOpen} onClose={closeEditDialog}>
-					<EditAsset userId={selectedAssetId} onClose={closeEditDialog} />
-				</Dialog> */}
+					<EditAssets assetId={selectedAssetId} onClose={closeEditDialog} />
+				</Dialog>
 				<Dialog isOpen={isDeleteDialogOpen} onClose={closeDeleteDialog}>
 					<div className='w-[90vw] p-4 sm:w-[300px] md:w-[500px]'>
 						<h2 className='text-xl font-bold'>刪除體育器材</h2>
@@ -66,9 +67,9 @@ const AssetManagement = () => {
 				</Dialog>
 			</section>
 
-			<section className='mt-4 overflow-x-auto rounded-md rounded-b-none border border-gray-300 pb-3'>
-				<div className='w-full min-w-[500px] *:*:flex *:grid *:grid-cols-[1fr_2fr_2fr_1fr] *:*:items-center *:*:justify-center *:*:border-r *:*:py-0.5'>
-					<div className='bg-slate-300 *:py-2'>
+			<section className='mt-4 overflow-x-auto'>
+				<div className='custom-table min-w-[500px] *:grid-cols-[1fr_2fr_2fr_1fr_1fr_1fr]'>
+					<div className='custom-table-row bg-slate-300 *:py-2'>
 						<h2>
 							<span>器材 ID</span>
 						</h2>
@@ -79,22 +80,30 @@ const AssetManagement = () => {
 							<span>總數量</span>
 						</h2>
 						<h2>
+							<span>借出數量</span>
+						</h2>
+						<h2>
+							<span>剩餘數量</span>
+						</h2>
+						<h2>
 							<span>操作</span>
 						</h2>
 					</div>
 					{assets.map((asset) => (
-						<div key={asset.id}>
+						<div key={asset.id} className='custom-table-row *:py-1 odd:bg-white even:bg-slate-50'>
 							<div>{asset.id}</div>
 							<div>{asset.name}</div>
 							<div>{asset.amount}</div>
+							<div>{asset.amount}</div>
+							<div>{asset.amount}</div>
 							<div className='flex gap-2'>
-								{/* <Button
+								<Button
 									size='icon'
 									variant='warning'
 									onClick={() => openEditDialog(asset.id ?? null)}
 								>
 									<RiEditBoxFill />
-								</Button> */}
+								</Button>
 								<Button
 									size='icon'
 									variant='danger'

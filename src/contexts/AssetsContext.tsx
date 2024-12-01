@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 
 type Asset = {
-	id: number
+	id?: number
 	name: string
 	amount: number
 }
@@ -35,7 +35,7 @@ export const AssetsProvider = ({ children }: AssetsProviderProps) => {
 	}
 
 	const seederAssets = useCallback(() => {
-		const assetNames = ['籃球', '排球', '足球', '羽球', '網球', '桌球', '撞球', '保齡球']
+		const assetNames = ['籃球', '排球', '羽球拍', '羽毛球', '網球', '網球拍', '桌球拍', '乒乓球']
 		for (const [i, name] of assetNames.entries()) {
 			addAsset({
 				id: i + 1,

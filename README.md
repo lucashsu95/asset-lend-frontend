@@ -9,4 +9,7 @@ yarn
 yarn dev
 ```
 
-一個users的面(要得到users的資料)跟provider請求，provider在跟
+### 權限
+- admin 超級管理員
+- manage 管理員
+- user 使用者

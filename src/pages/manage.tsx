@@ -1,29 +1,55 @@
+import { AlertDialog } from '@/api/ApiResponse'
 import AssetManagement from '@/components/assets/AssetManagement'
+import LendManagement from '@/components/lends/LendManagement'
+import Loading from '@/components/Loading'
 import Button from '@/components/ui/button'
 import UserManagement from '@/components/users/UserManagement'
-import { useState } from 'react'
+import { useAuth } from '@/contexts/AuthContext'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { RiSearch2Line } from 'react-icons/ri'
+import { RiArrowRightSLine } from 'react-icons/ri'
+
+const pages = ['借用管理', '器材管理', '使用者管理']
 
 export default function Home() {
-	const [currentPage, setCurrentPage] = useState(0)
-	const pages = ['使用者管理', '體育器材管理']
+	const [currentPage, setCurrentPage] = useState<number>(0)
+	const router = useRouter()
+	const { hasLogin, hasPermission, loading } = useAuth()
+
+	useEffect(() => {
+		if (loading) return // 等待加載完成
+		if (!hasLogin()) {
+			router.push('/login')
+			return
+		}
+		if (!hasPermission('manage')) {
+			AlertDialog('error', '權限不足')
+			router.push('/')
+			return
+		}
+	}, [hasLogin, hasPermission, loading, router])
+
+	if (loading) {
+		return <Loading />
+	}
 
 	return (
 		<div className='flex bg-gray-100'>
 			{/* Left Sidebar */}
-			<section className='w-44 bg-gray-900 p-4 text-center text-white'>
-				<h2 className='mb-6 text-2xl font-bold'>後台管理</h2>
-				<div className='space-y-3'>
-					{pages.map((name, index) => (
-						<Button
-							key={`pageName-${index}`}
-							onClick={() => setCurrentPage(index)}
-							className='w-full cursor-pointer hover:bg-gray-600/70'
-						>
-							{name}
-						</Button>
-					))}
-				</div>
+			<section className='w-44 space-y-3 bg-gray-900 p-4 text-white'>
+				{pages.map((name, index) => (
+					<Button
+						key={`pageName-${index}`}
+						onClick={() => setCurrentPage(index)}
+						className={`group flex w-full cursor-pointer text-left hover:bg-gray-600/70 ${currentPage === index ? 'bg-gray-600/70' : ''}`}
+					>
+						{name}
+						<RiArrowRightSLine
+							className={`my-auto ml-auto flex transition-transform duration-300 group-hover:translate-x-2 ${currentPage === index ? 'translate-x-2' : ''}`}
+						/>
+					</Button>
+				))}
 			</section>
 
 			{/* Main Content */}
@@ -38,10 +64,15 @@ export default function Home() {
 					</div>
 				</div>
 
-				{/* Product List */}
+				{/* List */}
 				<div className='p-6'>
-					{currentPage === 0 && <UserManagement />}
-					{currentPage === 1 && <AssetManagement />}
+					{hasPermission('manage') && (
+						<>
+							{currentPage === 0 && <LendManagement />}
+							{currentPage === 1 && <AssetManagement />}
+							{currentPage === 2 && <UserManagement />}
+						</>
+					)}
 				</div>
 			</section>
 		</div>

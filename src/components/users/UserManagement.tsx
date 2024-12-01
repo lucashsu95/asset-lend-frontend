@@ -67,9 +67,9 @@ const UserManagement = () => {
 				</Dialog>
 			</section>
 
-			<section className='mt-4 overflow-x-auto rounded-md rounded-b-none border border-gray-300 pb-3'>
-				<div className='w-full min-w-[500px] *:*:flex *:grid *:grid-cols-[1fr_2fr_2fr_1fr] *:*:items-center *:*:justify-center *:*:border-r *:*:py-0.5'>
-					<div className='bg-slate-300 *:py-2'>
+			<section className='mt-4 overflow-x-auto'>
+				<div className='custom-table min-w-[500px] *:grid-cols-[1fr_2fr_2fr_1fr]'>
+					<div className='custom-table-row bg-slate-300 *:py-2'>
 						<h2>
 							<span>使用者 ID</span>
 						</h2>
@@ -84,7 +84,7 @@ const UserManagement = () => {
 						</h2>
 					</div>
 					{users.map((user) => (
-						<div key={user.id}>
+						<div key={user.id} className='custom-table-row *:py-1 odd:bg-white even:bg-slate-50'>
 							<div>{user.id}</div>
 							<div>{user.email}</div>
 							<div>{user.role}</div>

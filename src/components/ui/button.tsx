@@ -17,7 +17,7 @@ const variantClass = {
 	danger: 'bg-danger',
 	warning: 'bg-warning',
 	info: 'bg-info',
-	outline: 'border border-slate-600 text-slate-800'
+	outline: 'border border-slate-500 text-slate-800'
 }
 
 const sizeClass = {
