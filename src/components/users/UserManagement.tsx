@@ -68,7 +68,7 @@ const UserManagement = () => {
 			</section>
 
 			<section className='mt-4 overflow-x-auto'>
-				<div className='custom-table min-w-[500px] *:grid-cols-[1fr_2fr_2fr_1fr]'>
+				<div className='custom-table min-w-[500px] *:grid-cols-[1fr_2fr_2fr_1fr_1fr]'>
 					<div className='custom-table-row bg-slate-300 *:py-2'>
 						<h2>
 							<span>使用者 ID</span>
@@ -80,6 +80,9 @@ const UserManagement = () => {
 							<span>權限</span>
 						</h2>
 						<h2>
+							<span>是否登入</span>
+						</h2>
+						<h2>
 							<span>操作</span>
 						</h2>
 					</div>
@@ -88,6 +91,7 @@ const UserManagement = () => {
 							<div>{user.id}</div>
 							<div>{user.email}</div>
 							<div>{user.role}</div>
+							<div>{user.access_token !== null ? '已登入' : '未登入'}</div>
 							<div className='flex gap-2'>
 								<Button
 									size='icon'

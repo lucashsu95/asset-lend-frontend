@@ -69,7 +69,7 @@ const LendManagement = () => {
 							<div className='custom-table-row bg-slate-200 *:py-1'>
 								<div>{lend.user_name}</div>
 								<div>{lend.lend_date}</div>
-								<div>{lend.return_date}</div>
+								<div>{lend.return_date ?? '尚未歸還'}</div>
 								<div className='flex gap-2'>
 									<Button
 										size='icon'

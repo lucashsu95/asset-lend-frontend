@@ -1,15 +1,7 @@
-import { useUsers } from '@/contexts/UsersContext'
+import { AddUserFormData, useUsers } from '@/contexts/UsersContext'
 import { useForm } from 'react-hook-form'
 import Button from '@/components/ui/button'
 import Form from '@/components/ui/form'
-
-interface FormData {
-	id?: number
-	email: string
-	password: string
-	role: string
-	access_token?: string
-}
 
 interface Props {
 	userId: number | null
@@ -24,19 +16,19 @@ export default function EditUser({ userId, onClose }: Props) {
 		register,
 		handleSubmit,
 		formState: { errors }
-	} = useForm<FormData>({
+	} = useForm<AddUserFormData>({
 		defaultValues: {
+			name: user?.name || '',
 			email: user?.email || '',
 			password: '',
 			role: user?.role || '使用者'
 		}
 	})
 
-	const onSubmit = (data: FormData) => {
+	const onSubmit = (data: AddUserFormData) => {
 		if (userId) {
-			updateUser(userId, data)
+			updateUser(userId, { ...data, id: userId })
 		} else {
-			data.id = new Date().getTime()
 			addUser(data)
 		}
 		onClose()
@@ -49,6 +41,21 @@ export default function EditUser({ userId, onClose }: Props) {
 				title={userId ? '編輯使用者' : '新增使用者'}
 				className='h-[400px] px-2 py-0 shadow-none sm:w-[350px]'
 			>
+				<div>
+					<label className='block text-gray-700'>Email</label>
+					<input
+						type='text'
+						{...register('name', {
+							required: '必填欄位',
+							pattern: {
+								value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+								message: '不合法的Email格式'
+							}
+						})}
+						className='input'
+					/>
+					{errors.name && <p className='text-red-500'>{errors.name.message}</p>}
+				</div>
 				<div>
 					<label className='block text-gray-700'>Email</label>
 					<input

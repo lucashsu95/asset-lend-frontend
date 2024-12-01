@@ -6,10 +6,20 @@ type CurrentUser = {
 	role: string
 }
 
+export interface LoginFormData {
+	email: string
+	password: string
+}
+
+export interface SignUpFormData extends LoginFormData {
+	name: string
+}
+
 type AuthContextType = {
 	currentUser: CurrentUser | null
 	loading: boolean
-	login: (user: CurrentUser) => void
+	login: (user: LoginFormData) => void
+	signUp: (user: SignUpFormData) => void
 	logout: () => void
 	checkToken: () => void
 	hasLogin: () => boolean
@@ -22,9 +32,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null)
 	const [loading, setLoading] = useState(true)
 
-	const login = (user: CurrentUser) => {
+	const login = (user: LoginFormData) => {
 		// 打api
-		setCurrentUser(user)
+		setCurrentUser({ ...user, id: new Date().getTime(), name: 'John Doe', role: 'admin' })
+		localStorage.setItem('asset-lend-auth-token', 'token')
+	}
+
+	const signUp = (user: SignUpFormData) => {
+		// 打api
+
+		setCurrentUser({ ...user, id: new Date().getTime(), role: 'user' })
 		localStorage.setItem('asset-lend-auth-token', 'token')
 	}
 
@@ -72,14 +89,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 	useEffect(() => {
 		setTimeout(() => {
-			setCurrentUser({ id: 1, name: 'John Doe', role: 'user' })
+			// login({ email: 'admin@web.tw', password: '1234' })
 			setLoading(false)
 		}, 1000)
 	}, [checkToken])
 
 	return (
 		<AuthContext.Provider
-			value={{ currentUser, loading, login, logout, checkToken, hasLogin, hasPermission }}
+			value={{ currentUser, loading, login, logout, checkToken, signUp, hasLogin, hasPermission }}
 		>
 			{children}
 		</AuthContext.Provider>

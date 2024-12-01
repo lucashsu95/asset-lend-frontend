@@ -7,6 +7,7 @@ interface ButtonProps {
 	children: React.ReactNode
 	type?: 'button' | 'submit' | 'reset'
 	variant?: keyof typeof variantClass
+	disabled?: boolean
 }
 
 const variantClass = {
@@ -17,7 +18,9 @@ const variantClass = {
 	danger: 'bg-danger',
 	warning: 'bg-warning',
 	info: 'bg-info',
-	outline: 'border border-slate-500 text-slate-800'
+	outline: 'border border-slate-500 text-slate-800',
+	ghost: 'text-slate-800',
+	link: 'text-primary underline'
 }
 
 const sizeClass = {
@@ -34,6 +37,7 @@ const Button = ({
 	onClick,
 	children,
 	type = 'button',
+	disabled = false,
 	...props
 }: ButtonProps) => {
 	return (
@@ -42,6 +46,7 @@ const Button = ({
 			className={`cursor-pointer rounded-md transition-transform duration-300 hover:brightness-90 ${sizeClass[size]} ${className} ${variantClass[variant]} `}
 			{...props}
 			onClick={onClick}
+			disabled={disabled}
 		>
 			{children}
 		</button>

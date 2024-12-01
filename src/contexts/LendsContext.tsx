@@ -1,22 +1,25 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 
-type Lend = {
-	id?: number
-	user_name: string
-	lend_assets: lend_asset[]
-	lend_date: string
-	return_date?: string | null
-}
-
 type lend_asset = {
 	asset_id: number
 	asset_name: string
 	lend_amount: number
 }
 
+export interface LendForm {
+	user_name: string
+	lend_assets: lend_asset[]
+}
+
+export interface Lend extends LendForm {
+	id: number
+	return_date: string | null
+	lend_date: string
+}
+
 type LendsContextType = {
 	lends: Lend[]
-	addLend: (lend: Lend) => void
+	addLend: (lend: LendForm) => void
 	deleteLend: (id: number) => void
 	updateLend: (id: number, updatedLend: Lend) => void
 }
@@ -27,11 +30,30 @@ type LendsProviderProps = {
 	children: React.ReactNode
 }
 
+export const formatDateTime = (second: number) => {
+	const date = new Date(second)
+	const year = date.getFullYear()
+	const month = (date.getMonth() + 1).toString().padStart(2, '0')
+	const day = date.getDate().toString().padStart(2, '0')
+	const hour = date.getHours().toString().padStart(2, '0')
+	const minute = date.getMinutes().toString().padStart(2, '0')
+	const s = date.getSeconds().toString().padStart(2, '0')
+	return `${year}-${month}-${day} ${hour}:${minute}:${s}`
+}
+
 export const LendsProvider = ({ children }: LendsProviderProps) => {
 	const [lends, setLends] = useState<Lend[]>([])
 
-	const addLend = (lend: Lend) => {
-		setLends((prev) => [...prev, lend])
+	const addLend = (lend: LendForm) => {
+		setLends((prev) => [
+			...prev,
+			{
+				...lend,
+				id: new Date().getTime(),
+				lend_date: formatDateTime(new Date().getTime()),
+				return_date: null
+			}
+		])
 	}
 
 	const deleteLend = (id: number) => {
@@ -40,17 +62,6 @@ export const LendsProvider = ({ children }: LendsProviderProps) => {
 
 	const updateLend = (id: number, updatedLend: Lend) => {
 		setLends(lends.map((lend) => (lend.id === id ? { ...lend, ...updatedLend } : lend)))
-	}
-
-	const formatDateTime = (second: number) => {
-		const date = new Date(second)
-		const year = date.getFullYear()
-		const month = (date.getMonth() + 1).toString().padStart(2, '0')
-		const day = date.getDate().toString().padStart(2, '0')
-		const hour = date.getHours().toString().padStart(2, '0')
-		const minute = date.getMinutes().toString().padStart(2, '0')
-		const s = date.getSeconds().toString().padStart(2, '0')
-		return `${year}-${month}-${day} ${hour}:${minute}:${s}`
 	}
 
 	const seederLends = useCallback(() => {
@@ -88,13 +99,16 @@ export const LendsProvider = ({ children }: LendsProviderProps) => {
 							new Date(lend_date).getTime() + (Math.random() < 0.5 ? 1 : 2) * 60 * 60 * 1000
 						)
 					: null
-			addLend({
-				id: i + 1,
-				user_name: `使用者${Math.floor(Math.random() * 5) + 1}`,
-				lend_date: lend_date,
-				return_date: return_date,
-				lend_assets: lend_assets
-			})
+			setLends((prev) => [
+				...prev,
+				{
+					id: new Date().getTime() + i,
+					user_name: `User${i}`,
+					lend_assets,
+					lend_date,
+					return_date
+				}
+			])
 		}
 	}, [])
 

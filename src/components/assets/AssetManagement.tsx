@@ -9,6 +9,7 @@ import { RiDeleteBinFill } from 'react-icons/ri'
 // context
 import { useAssets } from '@/contexts/AssetsContext'
 import EditAssets from './EditAssets'
+import Image from 'next/image'
 
 const AssetManagement = () => {
 	const [selectedAssetId, setSelectedAssetId] = useState<number | null>(null)
@@ -68,19 +69,16 @@ const AssetManagement = () => {
 			</section>
 
 			<section className='mt-4 overflow-x-auto'>
-				<div className='custom-table min-w-[500px] *:grid-cols-[1fr_2fr_2fr_1fr_1fr_1fr]'>
+				<div className='custom-table min-w-[500px] *:grid-cols-[1fr_2fr_2fr_1fr_1fr]'>
 					<div className='custom-table-row bg-slate-300 *:py-2'>
 						<h2>
-							<span>器材 ID</span>
+							<span>器材示意圖</span>
 						</h2>
 						<h2>
 							<span>名稱</span>
 						</h2>
 						<h2>
 							<span>總數量</span>
-						</h2>
-						<h2>
-							<span>借出數量</span>
 						</h2>
 						<h2>
 							<span>剩餘數量</span>
@@ -91,11 +89,18 @@ const AssetManagement = () => {
 					</div>
 					{assets.map((asset) => (
 						<div key={asset.id} className='custom-table-row *:py-1 odd:bg-white even:bg-slate-50'>
-							<div>{asset.id}</div>
+							<div>
+								<Image
+									src={asset.img}
+									width={100}
+									height={100}
+									alt={asset.name}
+									className='h-20 w-20 rounded object-cover'
+								/>
+							</div>
 							<div>{asset.name}</div>
 							<div>{asset.amount}</div>
-							<div>{asset.amount}</div>
-							<div>{asset.amount}</div>
+							<div>{asset.remain}</div>
 							<div className='flex gap-2'>
 								<Button
 									size='icon'

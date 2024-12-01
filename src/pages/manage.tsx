@@ -40,9 +40,10 @@ export default function Home() {
 			<section className='w-44 space-y-3 bg-gray-900 p-4 text-white'>
 				{pages.map((name, index) => (
 					<Button
+						variant='ghost'
 						key={`pageName-${index}`}
 						onClick={() => setCurrentPage(index)}
-						className={`group flex w-full cursor-pointer text-left hover:bg-gray-600/70 ${currentPage === index ? 'bg-gray-600/70' : ''}`}
+						className={`group flex w-full cursor-pointer text-left text-gray-200 hover:bg-gray-600/70 ${currentPage === index ? 'bg-gray-600/70' : ''}`}
 					>
 						{name}
 						<RiArrowRightSLine

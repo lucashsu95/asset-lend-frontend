@@ -1,18 +1,29 @@
 import { createContext, ReactNode, useState, useContext, useCallback, useEffect } from 'react'
 
 type User = {
-	id?: number
+	id: number
 	email: string
-	password?: string
+	name: string
 	role: string
-	access_token?: string
+	access_token: string | null
+}
+
+export interface AddUserFormData {
+	name: string
+	email: string
+	password: string
+	role: string
+}
+
+export interface EditUserFormData extends AddUserFormData {
+	id: number
 }
 
 type UserContextType = {
 	users: User[]
-	addUser: (user: User) => void
+	addUser: (user: AddUserFormData) => void
 	deleteUser: (id: number) => void
-	updateUser: (id: number, updatedUser: User) => void
+	updateUser: (id: number, updatedUser: EditUserFormData) => void
 }
 
 export const UserContext = createContext<UserContextType | undefined>(undefined)
@@ -26,29 +37,36 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 		{
 			id: 1,
 			email: 'admin@web.tw',
-			role: '管理員'
+			name: 'admin',
+			role: '管理員',
+			access_token: null
 		}
 	])
 
-	const addUser = (user: User) => {
-		setUsers((prev) => [...prev, user])
+	const addUser = (user: AddUserFormData) => {
+		setUsers((prev) => [...prev, { ...user, id: new Date().getTime(), access_token: null }])
 	}
 
 	const deleteUser = (id: number) => {
 		setUsers(users.filter((user) => user.id !== id))
 	}
 
-	const updateUser = (id: number, updatedUser: User) => {
+	const updateUser = (id: number, updatedUser: EditUserFormData) => {
 		setUsers(users.map((user) => (user.id === id ? { ...user, ...updatedUser } : user)))
 	}
 
 	const seederUsers = useCallback((num: number) => {
 		for (let i = 0; i < num; i++) {
-			addUser({
-				id: i + 2,
-				email: `user${i + 1}@web.tw`,
-				role: '使用者'
-			})
+			setUsers((prev) => [
+				...prev,
+				{
+					id: i + 2,
+					name: `user${i + 1}`,
+					email: `user${i + 1}@web.tw`,
+					role: '使用者',
+					access_token: null
+				}
+			])
 		}
 	}, [])
 
