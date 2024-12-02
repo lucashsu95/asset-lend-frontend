@@ -1,13 +1,8 @@
 import React from 'react'
 
-interface ButtonProps {
-	size?: 'sm' | 'lg' | 'default' | 'icon'
-	className?: string
-	onClick?: () => void
-	children: React.ReactNode
-	type?: 'button' | 'submit' | 'reset'
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	variant?: keyof typeof variantClass
-	disabled?: boolean
+	size?: 'icon' | 'default' | 'lg' | 'sm'
 }
 
 const variantClass = {
@@ -30,23 +25,17 @@ const sizeClass = {
 	icon: 'h-9 w-9 inline-flex justify-center items-center'
 }
 
-const Button = ({
+const Button: React.FC<ButtonProps> = ({
 	size = 'default',
 	className,
 	variant = 'default',
-	onClick,
 	children,
-	type = 'button',
-	disabled = false,
 	...props
-}: ButtonProps) => {
+}) => {
 	return (
 		<button
-			type={type}
 			className={`cursor-pointer rounded-md transition-transform duration-300 hover:brightness-90 ${sizeClass[size]} ${className} ${variantClass[variant]} `}
 			{...props}
-			onClick={onClick}
-			disabled={disabled}
 		>
 			{children}
 		</button>

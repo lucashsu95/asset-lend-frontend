@@ -1,21 +1,20 @@
 import { createContext, useContext, useState, ReactNode } from 'react'
 
-export type SelectedAsset = {
-	id: number
+
+export type EditSelectedAssetData = {
+	asset_id: number
 	name: string
 	img: string
 	lend_amount: number
 }
 
-export type EditSelectedAssetData = {
-	name: string
-	img: string
-	lend_amount: number
+export interface SelectedAsset extends EditSelectedAssetData {
+	id: number
 }
 
 type SelectedAssetsContextType = {
 	selectedAssets: SelectedAsset[]
-	editSelectedAssetAmount: ({ name, img, lend_amount }: EditSelectedAssetData) => void
+	editSelectedAssetAmount: ({ name, img, lend_amount, asset_id }: EditSelectedAssetData) => void
 	clearAssets: () => void
 }
 
@@ -24,13 +23,16 @@ const SelectedAssetsContext = createContext<SelectedAssetsContextType | undefine
 export const SelectedAssetsProvider = ({ children }: { children: ReactNode }) => {
 	const [selectedAssets, setSelectedAssets] = useState<SelectedAsset[]>([])
 
-	const editSelectedAssetAmount = ({ name, img, lend_amount }: EditSelectedAssetData) => {
+	const editSelectedAssetAmount = ({ asset_id, name, img, lend_amount }: EditSelectedAssetData) => {
 		if (selectedAssets.find((asset) => asset.name === name)) {
 			setSelectedAssets(
 				selectedAssets.map((asset) => (asset.name === name ? { ...asset, lend_amount } : asset))
 			)
 		} else {
-			setSelectedAssets((prev) => [...prev, { id: new Date().getTime(), name, img, lend_amount }])
+			setSelectedAssets((prev) => [
+				...prev,
+				{ id: new Date().getTime(), asset_id, name, img, lend_amount }
+			])
 		}
 		setSelectedAssets((prev) => prev.filter((asset) => asset.lend_amount > 0))
 	}

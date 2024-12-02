@@ -21,7 +21,13 @@ export default function SelectAssetDrawer({ assetId, isOpen, onClose }: Props) {
 	const { editSelectedAssetAmount } = useSelectedAssets()
 	const asset = assets.find((asset) => asset.id === assetId)
 	const handleSelected = () => {
-		editSelectedAssetAmount({ name: asset?.name ?? '', img: asset?.img ?? '', lend_amount: amount })
+		if (assetId === null || asset == null) return
+		editSelectedAssetAmount({
+			asset_id: assetId,
+			name: asset.name,
+			img: asset.img,
+			lend_amount: amount
+		})
 		onClose()
 		setAmount(1)
 	}

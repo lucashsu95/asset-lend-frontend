@@ -60,7 +60,7 @@ export default function Home() {
 									<div>{asset.lend_amount}</div>
 									<div className='flex gap-2'>{asset.return_date ?? '尚未歸還'}</div>
 									<div className='flex gap-2'>
-										<Button variant='success'>歸還</Button>
+										{asset.return_date === null && <Button variant='success'>歸還</Button>}
 									</div>
 								</div>
 							))}

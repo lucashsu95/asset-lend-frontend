@@ -23,6 +23,7 @@ type AssetsContextType = {
 	assets: Asset[]
 	addAsset: (asset: AddAssetFormData) => void
 	deleteAsset: (id: number) => void
+	updateReamin: (id: number, easeAmount: number) => void
 	updateAsset: (id: number, updatedAsset: EditAssetFormData) => void
 }
 
@@ -53,6 +54,14 @@ export const AssetsProvider = ({ children }: AssetsProviderProps) => {
 		setAssets(assets.map((asset) => (asset.id === id ? { ...asset, ...updatedAsset } : asset)))
 	}
 
+	const updateReamin = (id: number, easeAmount: number) => {
+		setAssets((prev) => {
+			return prev.map((asset) =>
+				asset.id === id ? { ...asset, remain: asset.amount - easeAmount } : asset
+			)
+		})
+	}
+
 	const seederAssets = useCallback(() => {
 		const assetNames = ['籃球', '排球', '羽球拍', '羽毛球', '網球', '網球拍', '桌球拍', '乒乓球']
 		for (const [i, name] of assetNames.entries()) {
@@ -74,7 +83,7 @@ export const AssetsProvider = ({ children }: AssetsProviderProps) => {
 	}, [seederAssets])
 
 	return (
-		<AssetsContext.Provider value={{ assets, addAsset, deleteAsset, updateAsset }}>
+		<AssetsContext.Provider value={{ assets, updateReamin, addAsset, deleteAsset, updateAsset }}>
 			{children}
 		</AssetsContext.Provider>
 	)

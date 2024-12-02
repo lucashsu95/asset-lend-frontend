@@ -7,6 +7,8 @@ import Image from 'next/image'
 import { useSelectedAssets } from '@/contexts/SelectedAssetsContext'
 import { useLends } from '@/contexts/LendsContext'
 import { useAuth } from '@/contexts/AuthContext'
+import { useAssets } from '@/contexts/AssetsContext'
+import { useRouter } from 'next/router'
 
 interface Props {
 	isOpen: boolean
@@ -15,14 +17,14 @@ interface Props {
 }
 
 export default function CheckSubmit({ isOpen, onOpen, onClose }: Props) {
-	const { selectedAssets } = useSelectedAssets()
-	const { editSelectedAssetAmount } = useSelectedAssets()
+	const { selectedAssets, editSelectedAssetAmount } = useSelectedAssets()
 
-	const { addLend } = useLends()
 	const { currentUser } = useAuth()
+	const { addLend } = useLends()
+	const { updateReamin } = useAssets()
+	const router = useRouter()
 
 	const handleSubmit = () => {
-		console.log('submit')
 		if (currentUser === null) return
 		addLend({
 			user_name: currentUser.name,
@@ -33,7 +35,14 @@ export default function CheckSubmit({ isOpen, onOpen, onClose }: Props) {
 				lend_amount: selectedAsset.lend_amount
 			}))
 		})
+
+		selectedAssets.forEach((selectedAsset) => {
+			console.log('asset:', selectedAsset)
+
+			updateReamin(selectedAsset.id, selectedAsset.lend_amount)
+		})
 		onClose()
+		router.push('/lends')
 	}
 
 	return (
