@@ -1,14 +1,29 @@
 import { useAuth } from '@/contexts/AuthContext'
 import Link from 'next/link'
+// import Sheet from './ui/sheet'
+// import { useState } from 'react'
+// import Button from './ui/button'
+// import { RiMenu4Fill } from 'react-icons/ri'
 
 export default function Navbar() {
 	const { hasLogin, hasPermission } = useAuth()
+
 	return (
-		<nav className='flex h-16 w-full items-center bg-slate-800 px-10 text-gray-300 shadow'>
+		<nav className='flex h-16 w-full items-center bg-slate-800 px-4 text-gray-300 shadow sm:px-10'>
 			<h1 className='text-lg font-bold md:text-2xl'>
 				<Link href='/'>體育器材借用系統</Link>
 			</h1>
-			<ul className='ml-auto flex space-x-8'>
+
+			{/* <Button
+				size='icon'
+				variant='ghost'
+				className='ml-auto sm:hidden'
+				onClick={() => setIsOpen(true)}
+			>
+				<RiMenu4Fill className='h-6 w-6' />
+			</Button> */}
+
+			<ul className='flex ml-auto space-x-8'>
 				{hasLogin() ? (
 					<>
 						<li>
