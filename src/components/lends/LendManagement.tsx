@@ -49,10 +49,10 @@ const LendManagement = () => {
 			</section>
 
 			<section className='mt-4 overflow-x-auto'>
-				<div className='custom-table min-w-[500px] *:grid-cols-[1fr_2fr_2fr_1fr]'>
+				<div className='custom-table min-w-[500px] *:grid-cols-[2fr_2fr_2fr_1fr]'>
 					<div className='custom-table-row bg-slate-300 *:py-2'>
 						<h2>
-							<span>借用人</span>
+							<span>借用人 / 器材名稱</span>
 						</h2>
 						<h2>
 							<span>借用日期</span>
@@ -69,7 +69,7 @@ const LendManagement = () => {
 							<div className='custom-table-row bg-slate-200 *:py-1'>
 								<div>{lend.user_name}</div>
 								<div>{lend.lend_date}</div>
-								<div>{lend.return_date ?? '尚未歸還'}</div>
+								<div></div>
 								<div className='flex gap-2'>
 									<Button
 										size='icon'
@@ -82,9 +82,9 @@ const LendManagement = () => {
 							</div>
 							{lend.lend_assets.map((asset, index) => (
 								<div key={`asset-${index}`} className='custom-table-row *:py-1'>
-									<div>借用器材</div>
 									<div>{asset.asset_name}</div>
 									<div>{asset.lend_amount}</div>
+									<div>{asset.return_date ?? '尚未歸還'}</div>
 									<div className='flex gap-2'>
 										<Button
 											size='icon'

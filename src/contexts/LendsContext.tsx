@@ -4,6 +4,7 @@ type lend_asset = {
 	asset_id: number
 	asset_name: string
 	lend_amount: number
+	return_date: string | null
 }
 
 export interface LendForm {
@@ -13,7 +14,6 @@ export interface LendForm {
 
 export interface Lend extends LendForm {
 	id: number
-	return_date: string | null
 	lend_date: string
 }
 
@@ -50,8 +50,7 @@ export const LendsProvider = ({ children }: LendsProviderProps) => {
 			{
 				...lend,
 				id: new Date().getTime(),
-				lend_date: formatDateTime(new Date().getTime()),
-				return_date: null
+				lend_date: formatDateTime(new Date().getTime())
 			}
 		])
 	}
@@ -68,27 +67,6 @@ export const LendsProvider = ({ children }: LendsProviderProps) => {
 		const lendDates = ['2024-12-01', '2024-11-28', '2024-11-25', '2023-11-28', '2023-11-11']
 		const assetNames = ['籃球', '排球', '羽球拍', '羽毛球', '網球', '網球拍', '桌球拍', '乒乓球']
 		for (let i = 0; i < 10; i++) {
-			const lend_assets =
-				i % 3 === 0
-					? [
-							{
-								asset_id: Math.floor(Math.random() * 8) + 1,
-								asset_name: assetNames[Math.floor(Math.random() * 8)],
-								lend_amount: Math.floor(Math.random() * 5) + 1
-							}
-						]
-					: [
-							{
-								asset_id: Math.floor(Math.random() * 8) + 1,
-								asset_name: assetNames[Math.floor(Math.random() * 8)],
-								lend_amount: Math.floor(Math.random() * 5) + 1
-							},
-							{
-								asset_id: Math.floor(Math.random() * 8) + 1,
-								asset_name: assetNames[Math.floor(Math.random() * 8)],
-								lend_amount: Math.floor(Math.random() * 5) + 1
-							}
-						]
 			const lend_date = formatDateTime(
 				new Date(lendDates[Math.floor(Math.random() * 5)]).getTime() +
 					Math.random() * 60 * 60 * 1000
@@ -99,14 +77,37 @@ export const LendsProvider = ({ children }: LendsProviderProps) => {
 							new Date(lend_date).getTime() + (Math.random() < 0.5 ? 1 : 2) * 60 * 60 * 1000
 						)
 					: null
+			const lend_assets =
+				i % 3 === 0
+					? [
+							{
+								asset_id: Math.floor(Math.random() * 8) + 1,
+								asset_name: assetNames[Math.floor(Math.random() * 8)],
+								lend_amount: Math.floor(Math.random() * 5) + 1,
+								return_date: return_date
+							}
+						]
+					: [
+							{
+								asset_id: Math.floor(Math.random() * 8) + 1,
+								asset_name: assetNames[Math.floor(Math.random() * 8)],
+								lend_amount: Math.floor(Math.random() * 5) + 1,
+								return_date: return_date
+							},
+							{
+								asset_id: Math.floor(Math.random() * 8) + 1,
+								asset_name: assetNames[Math.floor(Math.random() * 8)],
+								lend_amount: Math.floor(Math.random() * 5) + 1,
+								return_date: return_date
+							}
+						]
 			setLends((prev) => [
 				...prev,
 				{
 					id: new Date().getTime() + i,
-					user_name: `User${i}`,
+					user_name: i < 2 ? `John Doe` : `user${i}`,
 					lend_assets,
-					lend_date,
-					return_date
+					lend_date
 				}
 			])
 		}

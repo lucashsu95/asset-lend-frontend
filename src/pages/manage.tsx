@@ -18,7 +18,7 @@ export default function Home() {
 	const { hasLogin, hasPermission, loading } = useAuth()
 
 	useEffect(() => {
-		if (loading) return // 等待加載完成
+		if (loading) return
 		if (!hasLogin()) {
 			router.push('/login')
 			return

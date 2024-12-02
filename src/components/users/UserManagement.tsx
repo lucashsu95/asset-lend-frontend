@@ -71,7 +71,7 @@ const UserManagement = () => {
 				<div className='custom-table min-w-[500px] *:grid-cols-[1fr_2fr_2fr_1fr_1fr]'>
 					<div className='custom-table-row bg-slate-300 *:py-2'>
 						<h2>
-							<span>使用者 ID</span>
+							<span>使用者名稱</span>
 						</h2>
 						<h2>
 							<span>電子郵件</span>
@@ -88,7 +88,7 @@ const UserManagement = () => {
 					</div>
 					{users.map((user) => (
 						<div key={user.id} className='custom-table-row *:py-1 odd:bg-white even:bg-slate-50'>
-							<div>{user.id}</div>
+							<div>{user.name}</div>
 							<div>{user.email}</div>
 							<div>{user.role}</div>
 							<div>{user.access_token !== null ? '已登入' : '未登入'}</div>

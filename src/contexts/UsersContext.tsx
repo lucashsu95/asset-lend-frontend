@@ -37,8 +37,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 		{
 			id: 1,
 			email: 'admin@web.tw',
-			name: 'admin',
-			role: '管理員',
+			name: 'John Doe',
+			role: 'admin',
 			access_token: null
 		}
 	])

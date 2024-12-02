@@ -89,7 +89,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 	useEffect(() => {
 		setTimeout(() => {
-			// login({ email: 'admin@web.tw', password: '1234' })
+			login({ email: 'admin@web.tw', password: '1234' })
 			setLoading(false)
 		}, 1000)
 	}, [checkToken])

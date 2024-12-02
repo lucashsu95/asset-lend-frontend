@@ -10,15 +10,16 @@ export default function Navbar() {
 			</h1>
 			<ul className='ml-auto flex space-x-8'>
 				{hasLogin() ? (
-					hasPermission('admin') ? (
-						<li>
-							<Link href='/manage'>網站管理</Link>
-						</li>
-					) : (
+					<>
 						<li>
 							<Link href='/lends'>借用紀錄</Link>
 						</li>
-					)
+						{hasPermission('admin') && (
+							<li>
+								<Link href='/manage'>網站管理</Link>
+							</li>
+						)}
+					</>
 				) : (
 					<li>
 						<Link href='/login'>登入</Link>

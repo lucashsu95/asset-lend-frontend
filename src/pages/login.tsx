@@ -5,6 +5,7 @@ import { useState } from 'react'
 import Form from '@/components/ui/form'
 import Button from '@/components/ui/button'
 import { LoginFormData, SignUpFormData, useAuth } from '@/contexts/AuthContext'
+import { useRouter } from 'next/router'
 
 const Login = () => {
 	const [isLogin, setIsLogin] = useState(true)
@@ -18,13 +19,14 @@ const Login = () => {
 
 	const { login, signUp } = useAuth()
 
+	const router = useRouter()
 	const onSubmit = (data: SignUpFormData) => {
 		if (isLogin) {
 			login(data as LoginFormData)
 		} else {
 			signUp(data)
 		}
-		console.log(data)
+		router.push('/')
 	}
 
 	return (

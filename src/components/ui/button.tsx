@@ -19,8 +19,8 @@ const variantClass = {
 	warning: 'bg-warning',
 	info: 'bg-info',
 	outline: 'border border-slate-500 text-slate-800',
-	ghost: 'text-slate-800',
-	link: 'text-primary underline'
+	ghost: 'hover:bg-accent hover:text-accent-foreground',
+	link: 'text-primary underline-offset-4 hover:underline'
 }
 
 const sizeClass = {
