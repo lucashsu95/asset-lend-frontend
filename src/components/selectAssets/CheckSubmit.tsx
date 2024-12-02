@@ -27,11 +27,13 @@ export default function CheckSubmit({ isOpen, onOpen, onClose }: Props) {
 		addLend({
 			user_name: currentUser.name,
 			lend_assets: selectedAssets.map((selectedAsset) => ({
+				return_date: null,
 				asset_id: selectedAsset.id,
 				asset_name: selectedAsset.name,
 				lend_amount: selectedAsset.lend_amount
 			}))
 		})
+		onClose()
 	}
 
 	return (
