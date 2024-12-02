@@ -1,6 +1,7 @@
 import { AlertDialog } from '@/api/ApiResponse'
 import Loading from '@/components/Loading'
 import Button from '@/components/ui/button'
+import { useAssets } from '@/contexts/AssetsContext'
 import { useAuth } from '@/contexts/AuthContext'
 import { Lend, useLends } from '@/contexts/LendsContext'
 import { useRouter } from 'next/router'
@@ -24,6 +25,21 @@ export default function Home() {
 
 		setCurrentLends(lends.filter((lend) => lend.user_name === currentUser?.name))
 	}, [currentUser?.name, hasLogin, lends, loading, router])
+
+	const { AddRemain, assets } = useAssets()
+	const { returnLend } = useLends()
+	const handleReturn = (lend: Lend, asset_id?: number | null) => {
+		// 串後端時要實作
+		returnLend(lend.id, asset_id ?? null)
+		lend.lend_assets.forEach((selectedAsset) => {
+			console.log('selectedAsset:', selectedAsset)
+			AddRemain(selectedAsset.asset_id, selectedAsset.lend_amount)
+		})
+	}
+
+	useEffect(() => {
+		console.log(assets)
+	}, [assets])
 
 	if (loading) {
 		return <Loading />
@@ -53,6 +69,16 @@ export default function Home() {
 						<React.Fragment key={lend.id}>
 							<div className='custom-table-row bg-slate-200 *:py-1'>
 								<div>{lend.lend_date}</div>
+								<div></div>
+								<div></div>
+								<div>
+									{' '}
+									{lend.lend_assets.some((x) => x.return_date === null) && (
+										<Button variant='success' onClick={() => handleReturn(lend)}>
+											歸還
+										</Button>
+									)}
+								</div>
 							</div>
 							{lend.lend_assets.map((asset, index) => (
 								<div key={`asset-${index}`} className='custom-table-row *:py-1'>
@@ -60,7 +86,15 @@ export default function Home() {
 									<div>{asset.lend_amount}</div>
 									<div className='flex gap-2'>{asset.return_date ?? '尚未歸還'}</div>
 									<div className='flex gap-2'>
-										{asset.return_date === null && <Button variant='success'>歸還</Button>}
+										{asset.return_date === null && (
+											<Button
+												size='sm'
+												variant='success'
+												onClick={() => handleReturn(lend, asset.asset_id)}
+											>
+												歸還
+											</Button>
+										)}
 									</div>
 								</div>
 							))}

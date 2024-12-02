@@ -5,7 +5,7 @@ export default function Navbar() {
 	const { hasLogin, hasPermission } = useAuth()
 	return (
 		<nav className='flex h-16 w-full items-center bg-slate-800 px-10 text-gray-300 shadow'>
-			<h1 className='font-bold md:text-2xl'>
+			<h1 className='text-lg font-bold md:text-2xl'>
 				<Link href='/'>體育器材借用系統</Link>
 			</h1>
 			<ul className='ml-auto flex space-x-8'>

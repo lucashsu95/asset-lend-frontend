@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 
 type lend_asset = {
 	asset_id: number
@@ -17,11 +17,12 @@ export interface Lend extends LendForm {
 	lend_date: string
 }
 
-type LendsContextType = {
+export type LendsContextType = {
 	lends: Lend[]
 	addLend: (lend: LendForm) => void
 	deleteLend: (id: number) => void
 	updateLend: (id: number, updatedLend: Lend) => void
+	returnLend: (id: number, asset_id: number | null) => void
 }
 
 export const LendsContext = createContext<LendsContextType | undefined>(undefined)
@@ -63,62 +64,79 @@ export const LendsProvider = ({ children }: LendsProviderProps) => {
 		setLends(lends.map((lend) => (lend.id === id ? { ...lend, ...updatedLend } : lend)))
 	}
 
-	const seederLends = useCallback(() => {
-		const lendDates = ['2024-12-01', '2024-11-28', '2024-11-25', '2023-11-28', '2023-11-11']
-		const assetNames = ['籃球', '排球', '羽球拍', '羽毛球', '網球', '網球拍', '桌球拍', '乒乓球']
-		for (let i = 0; i < 10; i++) {
-			const lend_date = formatDateTime(
-				new Date(lendDates[Math.floor(Math.random() * 5)]).getTime() +
-					Math.random() * 60 * 60 * 1000
+	const returnLend = (id: number, asset_id: number | null) => {
+		setLends(
+			lends.map((lend) =>
+				lend.id === id
+					? {
+							...lend,
+							lend_assets: lend.lend_assets.map((asset) =>
+								asset.asset_id === asset_id || asset_id === null
+									? { ...asset, return_date: formatDateTime(new Date().getTime()) }
+									: asset
+							)
+						}
+					: lend
 			)
-			const return_date =
-				i % 4 === 0
-					? formatDateTime(
-							new Date(lend_date).getTime() + (Math.random() < 0.5 ? 1 : 2) * 60 * 60 * 1000
-						)
-					: null
-			const lend_assets =
-				i % 3 === 0
-					? [
-							{
-								asset_id: Math.floor(Math.random() * 8) + 1,
-								asset_name: assetNames[Math.floor(Math.random() * 8)],
-								lend_amount: Math.floor(Math.random() * 5) + 1,
-								return_date: return_date
-							}
-						]
-					: [
-							{
-								asset_id: Math.floor(Math.random() * 8) + 1,
-								asset_name: assetNames[Math.floor(Math.random() * 8)],
-								lend_amount: Math.floor(Math.random() * 5) + 1,
-								return_date: return_date
-							},
-							{
-								asset_id: Math.floor(Math.random() * 8) + 1,
-								asset_name: assetNames[Math.floor(Math.random() * 8)],
-								lend_amount: Math.floor(Math.random() * 5) + 1,
-								return_date: return_date
-							}
-						]
-			setLends((prev) => [
-				...prev,
-				{
-					id: new Date().getTime() + i,
-					user_name: i < 2 ? `John Doe` : `user${i}`,
-					lend_assets,
-					lend_date
-				}
-			])
-		}
-	}, [])
+		)
+	}
 
-	useEffect(() => {
-		seederLends()
-	}, [seederLends])
+	// const seederLends = useCallback(() => {
+	// 	const lendDates = ['2024-12-01', '2024-11-28', '2024-11-25', '2023-11-28', '2023-11-11']
+	// 	const assetNames = ['籃球', '排球', '羽球拍', '羽毛球', '網球', '網球拍', '桌球拍', '乒乓球']
+	// 	for (let i = 0; i < 10; i++) {
+	// 		const lend_date = formatDateTime(
+	// 			new Date(lendDates[Math.floor(Math.random() * 5)]).getTime() +
+	// 				Math.random() * 60 * 60 * 1000
+	// 		)
+	// 		const return_date =
+	// 			i % 4 === 0
+	// 				? formatDateTime(
+	// 						new Date(lend_date).getTime() + (Math.random() < 0.5 ? 1 : 2) * 60 * 60 * 1000
+	// 					)
+	// 				: null
+	// 		const lend_assets =
+	// 			i % 3 === 0
+	// 				? [
+	// 						{
+	// 							asset_id: Math.floor(Math.random() * 8) + 1,
+	// 							asset_name: assetNames[Math.floor(Math.random() * 8)],
+	// 							lend_amount: Math.floor(Math.random() * 5) + 1,
+	// 							return_date: return_date
+	// 						}
+	// 					]
+	// 				: [
+	// 						{
+	// 							asset_id: Math.floor(Math.random() * 8) + 1,
+	// 							asset_name: assetNames[Math.floor(Math.random() * 8)],
+	// 							lend_amount: Math.floor(Math.random() * 5) + 1,
+	// 							return_date: return_date
+	// 						},
+	// 						{
+	// 							asset_id: Math.floor(Math.random() * 8) + 1,
+	// 							asset_name: assetNames[Math.floor(Math.random() * 8)],
+	// 							lend_amount: Math.floor(Math.random() * 5) + 1,
+	// 							return_date: return_date
+	// 						}
+	// 					]
+	// 		setLends((prev) => [
+	// 			...prev,
+	// 			{
+	// 				id: new Date().getTime() + i,
+	// 				user_name: i < 2 ? `John Doe` : `user${i}`,
+	// 				lend_assets,
+	// 				lend_date
+	// 			}
+	// 		])
+	// 	}
+	// }, [])
+
+	// useEffect(() => {
+	// 	seederLends()
+	// }, [seederLends])
 
 	return (
-		<LendsContext.Provider value={{ lends, addLend, deleteLend, updateLend }}>
+		<LendsContext.Provider value={{ lends, addLend, deleteLend, returnLend, updateLend }}>
 			{children}
 		</LendsContext.Provider>
 	)

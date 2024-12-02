@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from 'react'
 
-
 export type EditSelectedAssetData = {
 	asset_id: number
 	name: string
@@ -15,7 +14,7 @@ export interface SelectedAsset extends EditSelectedAssetData {
 type SelectedAssetsContextType = {
 	selectedAssets: SelectedAsset[]
 	editSelectedAssetAmount: ({ name, img, lend_amount, asset_id }: EditSelectedAssetData) => void
-	clearAssets: () => void
+	clearSelected: () => void
 }
 
 const SelectedAssetsContext = createContext<SelectedAssetsContextType | undefined>(undefined)
@@ -37,13 +36,13 @@ export const SelectedAssetsProvider = ({ children }: { children: ReactNode }) =>
 		setSelectedAssets((prev) => prev.filter((asset) => asset.lend_amount > 0))
 	}
 
-	const clearAssets = () => {
+	const clearSelected = () => {
 		setSelectedAssets([])
 	}
 
 	return (
 		<SelectedAssetsContext.Provider
-			value={{ selectedAssets, editSelectedAssetAmount, clearAssets }}
+			value={{ selectedAssets, editSelectedAssetAmount, clearSelected }}
 		>
 			{children}
 		</SelectedAssetsContext.Provider>

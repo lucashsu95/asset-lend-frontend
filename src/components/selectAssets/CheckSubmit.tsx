@@ -17,31 +17,30 @@ interface Props {
 }
 
 export default function CheckSubmit({ isOpen, onOpen, onClose }: Props) {
-	const { selectedAssets, editSelectedAssetAmount } = useSelectedAssets()
-
+	const router = useRouter()
+	const { selectedAssets, clearSelected, editSelectedAssetAmount } = useSelectedAssets()
 	const { currentUser } = useAuth()
 	const { addLend } = useLends()
-	const { updateReamin } = useAssets()
-	const router = useRouter()
+	const { EaseReamin } = useAssets()
 
 	const handleSubmit = () => {
 		if (currentUser === null) return
 		addLend({
 			user_name: currentUser.name,
 			lend_assets: selectedAssets.map((selectedAsset) => ({
-				return_date: null,
-				asset_id: selectedAsset.id,
+				id: selectedAsset.id,
+				asset_id: selectedAsset.asset_id,
 				asset_name: selectedAsset.name,
-				lend_amount: selectedAsset.lend_amount
+				lend_amount: selectedAsset.lend_amount,
+				return_date: null
 			}))
 		})
 
 		selectedAssets.forEach((selectedAsset) => {
-			console.log('asset:', selectedAsset)
-
-			updateReamin(selectedAsset.id, selectedAsset.lend_amount)
+			EaseReamin(selectedAsset.asset_id, selectedAsset.lend_amount)
 		})
 		onClose()
+		clearSelected()
 		router.push('/lends')
 	}
 

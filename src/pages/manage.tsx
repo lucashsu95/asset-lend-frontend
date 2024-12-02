@@ -37,7 +37,7 @@ export default function Home() {
 	return (
 		<div className='flex bg-gray-100'>
 			{/* Left Sidebar */}
-			<section className='w-44 space-y-3 bg-gray-900 p-4 text-white'>
+			<section className='w-full max-w-44 space-y-3 bg-gray-900 p-4 text-white'>
 				{pages.map((name, index) => (
 					<Button
 						variant='ghost'

@@ -68,8 +68,8 @@ const AssetManagement = () => {
 				</Dialog>
 			</section>
 
-			<section className='mt-4 overflow-x-auto'>
-				<div className='custom-table min-w-[500px] *:grid-cols-[1fr_2fr_2fr_1fr_1fr]'>
+			<section className='mt-4 w-[200px] overflow-x-auto sm:w-full'>
+				<div className='custom-table min-w-[600px] *:grid-cols-[1fr_2fr_2fr_1fr_1fr]'>
 					<div className='custom-table-row bg-slate-300 *:py-2'>
 						<h2>
 							<span>器材示意圖</span>

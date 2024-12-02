@@ -23,7 +23,8 @@ type AssetsContextType = {
 	assets: Asset[]
 	addAsset: (asset: AddAssetFormData) => void
 	deleteAsset: (id: number) => void
-	updateReamin: (id: number, easeAmount: number) => void
+	EaseReamin: (asset_id: number, amount: number) => void
+	AddRemain: (asset_id: number, amount: number) => void
 	updateAsset: (id: number, updatedAsset: EditAssetFormData) => void
 }
 
@@ -54,10 +55,18 @@ export const AssetsProvider = ({ children }: AssetsProviderProps) => {
 		setAssets(assets.map((asset) => (asset.id === id ? { ...asset, ...updatedAsset } : asset)))
 	}
 
-	const updateReamin = (id: number, easeAmount: number) => {
+	const EaseReamin = (asset_id: number, amount: number) => {
 		setAssets((prev) => {
 			return prev.map((asset) =>
-				asset.id === id ? { ...asset, remain: asset.amount - easeAmount } : asset
+				asset.id === asset_id ? { ...asset, remain: asset.amount - amount } : asset
+			)
+		})
+	}
+
+	const AddRemain = (asset_id: number, amount: number) => {
+		setAssets((prev) => {
+			return prev.map((asset) =>
+				asset.id === asset_id ? { ...asset, remain: asset.remain + amount } : asset
 			)
 		})
 	}
@@ -83,7 +92,9 @@ export const AssetsProvider = ({ children }: AssetsProviderProps) => {
 	}, [seederAssets])
 
 	return (
-		<AssetsContext.Provider value={{ assets, updateReamin, addAsset, deleteAsset, updateAsset }}>
+		<AssetsContext.Provider
+			value={{ assets, EaseReamin, AddRemain, addAsset, deleteAsset, updateAsset }}
+		>
 			{children}
 		</AssetsContext.Provider>
 	)
