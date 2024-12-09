@@ -42,22 +42,19 @@ export default function EditUser({ userId, onClose }: Props) {
 				className='h-[400px] px-2 py-0 shadow-none sm:w-[350px]'
 			>
 				<div>
-					<label className='block text-gray-700'>Email</label>
+					<label className='block text-gray-700'>暱稱</label>
 					<input
 						type='text'
 						{...register('name', {
 							required: '必填欄位',
-							pattern: {
-								value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-								message: '不合法的Email格式'
-							}
+							maxLength: { value: 10, message: '名稱最多10個字' }
 						})}
 						className='input'
 					/>
 					{errors.name && <p className='text-red-500'>{errors.name.message}</p>}
 				</div>
 				<div>
-					<label className='block text-gray-700'>Email</label>
+					<label className='block text-gray-700'>電子郵件</label>
 					<input
 						type='email'
 						{...register('email', {
@@ -72,7 +69,7 @@ export default function EditUser({ userId, onClose }: Props) {
 					{errors.email && <p className='text-red-500'>{errors.email.message}</p>}
 				</div>
 				<div>
-					<label className='block text-gray-700'>Password</label>
+					<label className='block text-gray-700'>密碼</label>
 					{userId ? (
 						<input type='password' {...register('password')} className='input' />
 					) : (

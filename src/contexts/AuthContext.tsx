@@ -34,7 +34,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 	const login = (user: LoginFormData) => {
 		// 打api
-		setCurrentUser({ ...user, id: new Date().getTime(), name: 'John Doe', role: 'admin' })
+		const rep = { id: new Date().getTime(), name: 'John Doe', role: 'user' }
+		setCurrentUser({ ...user, ...rep })
 		localStorage.setItem('asset-lend-auth-token', 'token')
 	}
 
